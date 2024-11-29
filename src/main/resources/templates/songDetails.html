@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Song Details</title>
+
+</head>
+<body>
+<!-- dynamically display data -->
+<header>
+   <h1 th:text="${session.song.getTitle()}">Song title</h1>
+</header>
+<section>
+    <h2 th:text="${session.song.getGenre()}"></h2>
+    <h2 th:text="${session.song.getReleaseYear()}">Year</h2>
+    <h2>Performers:</h2>
+    <ul th:each="performer : ${session.song.performers}">
+        <li th:text="|${performer.getFirstName()} ${performer.getLastName()}|"></li>
+    </ul>
+</section>
+
+</body>
+</html>

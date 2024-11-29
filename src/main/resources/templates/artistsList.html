@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Add new Performer to Song</title>
+    <style type = "text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+        table {
+            width:100%;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding:3px 2px;
+        }
+        section {
+            float: left;
+            margin: 0 1.5%;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            margin: 0 1.5%;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Select the Artist to add to the List of Performers </h1>
+</header>
+<section>
+
+    <h2>Select artist:</h2>
+    <form method="post" action="/artist">
+
+        <div th:if="${artists.size() > 0}">
+            <div th:each="artist : ${artists}">
+                <input type="radio" name="artistId" th:value="${artist.getId()}"required th:text="|${artist.getFirstName()} ${artist.getLastName()}|">
+            </div>
+        </div>
+        <br/>
+
+        <input type='submit' value='Add artist'>
+    </form>
+</section>
+<aside>
+    <table>
+        <tr>
+
+            <td><b>Track Id</b></td>
+
+            <td th:text="${song != null ? song.trackId : 'No song available'}"></td>
+        </tr>
+    </table>
+</aside>
+</body>
+</html>
