@@ -8,7 +8,7 @@ import java.util.Random;
 
 @Data
 public class Song {
-    String trackId;
+    Long trackId;
     String title;
     String genre;
     int releaseYear;
@@ -16,7 +16,7 @@ public class Song {
     public List<Artist> performers;
     Album album;
 
-    public Song(String trackId, String title, String genre, int releaseYear, List<Artist> performers,Album album) {
+    public Song(Long trackId, String title, String genre, int releaseYear, List<Artist> performers,Album album) {
         this.trackId = trackId;
         this.title = title;
         this.genre = genre;
@@ -32,7 +32,7 @@ public class Song {
         this.releaseYear = releaseYear;
         this.performers = new ArrayList<>(); // Иницијализираме празна листа за изведувачи
         Random random = new Random();
-        this.trackId= String.valueOf(random.nextLong(10000)); // Генерирање случаен ID
+        this.trackId=random.nextLong(10000); // Генерирање случаен ID
         this.album=album;
     }
 }

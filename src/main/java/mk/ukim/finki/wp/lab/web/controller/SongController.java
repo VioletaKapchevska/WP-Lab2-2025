@@ -50,7 +50,7 @@ public class SongController {
     @GetMapping("/delete/{id}")
     public String deleteSong(@PathVariable(name = "id") String id){
         System.out.println("id: "+id);
-          this.songService.deleteSongById(id);//ja brisheme pesnata
+          this.songService.deleteSongById(Long.parseLong(id));//ja brisheme pesnata
           return "redirect:/songs";
     }
 
@@ -69,7 +69,7 @@ public class SongController {
 
    @GetMapping("/edit-form/{id}")
    public String getEditSongForm(@PathVariable String id, Model model){
-       Song song = this.songService.findByTrackId(id);
+       Song song = this.songService.findByTrackId(Long.parseLong(id));
        List<Artist> artists = this.artistService.listArtists();
        List<Album> albums = this.albumService.findAll();
        model.addAttribute("song", song);
@@ -81,7 +81,7 @@ public class SongController {
     @GetMapping("/edit/{songId}")
     public String editSong(@PathVariable Long songId,
                            @RequestParam(required = false) String title,
-                           @RequestParam(required = false) String trackId,
+                           @RequestParam(required = false) Long trackId,
                            @RequestParam(required = false) String genre,
                            @RequestParam(required = false) Integer releaseYear,
                            @RequestParam(required = false) Long albumId){
@@ -94,8 +94,8 @@ public class SongController {
     }
 
    @PostMapping
-    public String songsToArtist(@RequestParam(required = false) String trackId, HttpServletRequest request){
-       if (trackId == null || trackId.isEmpty()) {
+    public String songsToArtist(@RequestParam(required = false) Long trackId, HttpServletRequest request){
+       if (trackId == null) {
            return "redirect:/songs";
        }
        try {

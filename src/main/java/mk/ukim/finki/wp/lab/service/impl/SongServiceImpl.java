@@ -9,7 +9,6 @@ import mk.ukim.finki.wp.lab.service.SongService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -32,12 +31,12 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Song findByTrackId(String trackId) {
+    public Song findByTrackId(Long trackId) {
         return songRepository.findByTrackId(trackId);
     }
 
     @Override
-    public void deleteSongById(String id) {
+    public void deleteSongById(Long id) {
         songRepository.deleteById(id);
     }
 
@@ -48,7 +47,7 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public void editSong(String trackId, String title, String genre, int releaseYear,List<Artist> performers,Album album) {
+    public void editSong(Long trackId, String title, String genre, int releaseYear,List<Artist> performers,Album album) {
         Song song = new Song(trackId,title, genre, releaseYear,performers, album);
         //song.setTitle(title);
        // song.setId(Long.valueOf(trackId));
