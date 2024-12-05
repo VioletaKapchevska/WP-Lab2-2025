@@ -1,6 +1,6 @@
 package mk.ukim.finki.wp.lab.web;
 
-import jakarta.servlet.Filter;
+/*import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
@@ -27,4 +27,4 @@ public class Filter1 implements Filter {
             chain.doFilter(request, response);
         }
     }
-}
+}*/

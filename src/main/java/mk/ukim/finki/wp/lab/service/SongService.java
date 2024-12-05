@@ -12,7 +12,7 @@ public interface SongService {
     Artist addArtistToSong(Artist artist, Song song);
     public Song findByTrackId(String trackId);
     void deleteSongById(String id);
-    public Optional<Song> addNewSong(String trackId, String title, String genre, int releaseYear, Album album);
-    void editSong(String trackId,String title,String genre,int releaseYear,Album album);
+    public void addNewSong(String title, String genre, int releaseYear, Album album);
+    void editSong(String trackId,String title,String genre,int releaseYear,List<Artist> performers,Album album);
 
 }

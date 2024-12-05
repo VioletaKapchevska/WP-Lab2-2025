@@ -1,5 +1,7 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
@@ -8,14 +10,12 @@ import mk.ukim.finki.wp.lab.service.ArtistService;
 import mk.ukim.finki.wp.lab.service.SongService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/songs")
 public class SongController {
     private final SongService songService;
     private final AlbumService albumService;
@@ -26,7 +26,7 @@ public class SongController {
         this.albumService = albumService;
         this.artistService = artistService;
     }
-    @GetMapping("/songs")
+    @GetMapping()
     public String getSongsPage(@RequestParam(required = false) String error, Model model){
      //da gi vrakja site pesni so albumite
 
@@ -40,14 +40,14 @@ public class SongController {
     }
     //ja vrakja stranata za dodavanje na nova pesna
 
-    @GetMapping("/songs/add-form")
+    @GetMapping("/add-form")
     public String getAddSongPage(Model model){
         model.addAttribute("albums",albumService.findAll());//albumite sto ni trebaat
         return "add-song";
     }
 
     //delete a song
-    @GetMapping("/songs/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteSong(@PathVariable(name = "id") String id){
         System.out.println("id: "+id);
           this.songService.deleteSongById(id);//ja brisheme pesnata
@@ -56,19 +56,18 @@ public class SongController {
 
 
     //add new Song
-    @PostMapping("/songs/add")
+    @PostMapping("/add")
     public String saveSong(@RequestParam(name="songName") String title,
-                           @RequestParam(name="trackId") String trackId,
                            @RequestParam(name="genre") String genre,
                            @RequestParam(name="rYear") String releaseYear,
                            @RequestParam(name="albumId") Long albumId){
        Album album = albumService.findById(albumId);
        Integer year = Integer.parseInt(releaseYear);
-       this.songService.addNewSong(trackId,title,genre,year,album);
+       this.songService.addNewSong(title,genre,year,album);
        return "redirect:/songs";
     }
 
-   @GetMapping("/songs/edit-form/{id}")
+   @GetMapping("/edit-form/{id}")
    public String getEditSongForm(@PathVariable String id, Model model){
        Song song = this.songService.findByTrackId(id);
        List<Artist> artists = this.artistService.listArtists();
@@ -79,7 +78,7 @@ public class SongController {
        return "add-song";
    }
 
-    @GetMapping("/songs/edit/{songId}")
+    @GetMapping("/edit/{songId}")
     public String editSong(@PathVariable Long songId,
                            @RequestParam(required = false) String title,
                            @RequestParam(required = false) String trackId,
@@ -87,9 +86,29 @@ public class SongController {
                            @RequestParam(required = false) Integer releaseYear,
                            @RequestParam(required = false) Long albumId){
        Album album = albumService.findById(albumId);
-        songService.editSong(trackId,title,genre,releaseYear,album);
+       Song song = songService.findByTrackId(trackId);
+       List<Artist> artistsList = song.getPerformers();
+       // String trackId, String title, String genre, int releaseYear, List<Artist> performers,Album album
+        songService.editSong(trackId,title,genre,releaseYear,artistsList,album);
         return "redirect:/songs";
     }
+
+   @PostMapping
+    public String songsToArtist(@RequestParam(required = false) String trackId, HttpServletRequest request){
+       if (trackId == null || trackId.isEmpty()) {
+           return "redirect:/songs";
+       }
+       try {
+           Song song = songService.findByTrackId(trackId);
+           request.getSession().setAttribute("song", song);
+           System.out.println("redirecting!");
+           return "redirect:/artist";
+
+       } catch (Exception ex) {
+           return "redirect:/songs";
+       }
+   }
+
 
 
 }

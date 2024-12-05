@@ -42,20 +42,22 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public Optional<Song> addNewSong(String trackId, String title, String genre, int releaseYear, Album album) {
-          return songRepository.save(trackId,title,genre,releaseYear,album);
+    public void addNewSong(String title, String genre, int releaseYear, Album album) {
+        Song song = new Song(title, genre, releaseYear, album);
+          songRepository.save(song);
     }
 
     @Override
-    public void editSong(String trackId, String title, String genre, int releaseYear, Album album) {
-        Song song = songRepository.findByTrackId(trackId);
-        song.setTitle(title);
-        song.setId(Long.valueOf(trackId));
-        song.setReleaseYear(releaseYear);
-        song.setGenre(genre);
-        song.setAlbum(album);
+    public void editSong(String trackId, String title, String genre, int releaseYear,List<Artist> performers,Album album) {
+        Song song = new Song(trackId,title, genre, releaseYear,performers, album);
+        //song.setTitle(title);
+       // song.setId(Long.valueOf(trackId));
+       // song.setReleaseYear(releaseYear);
+       // song.setGenre(genre);
+      //  song.setAlbum(album);
         //ja zacuvvuame posle edit
         //songRepository.saveSongAfterEdit(song);
+        songRepository.save(song);
     }
 
 }

@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.lab.repository;
 
 import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Artist;
+import mk.ukim.finki.wp.lab.model.Song;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -26,5 +27,16 @@ public class ArtistRepository {
     }
     public Optional<Artist> findById(Long id){
         return artists.stream().filter(artist -> artist.getId().equals(id)).findFirst();
+    }
+    public void deleteArtistById(Long id){
+        artists.removeIf(artist -> artist.getId().equals(id));
+    }
+    public Optional<Artist> addArtist(String firstName,String lastName){
+        //novo Id generirano za sekoj nov artist >5
+        Long nextId = artists.stream().mapToLong(Artist::getId).max().orElse(0L)+1;
+        Artist artist =  new Artist(nextId,firstName, lastName,"");
+        artists.removeIf(a->a.getFirstName().equals(firstName));//izbrisi go ako vekje postoi
+        artists.add(artist);
+        return Optional.of(artist);
     }
 }

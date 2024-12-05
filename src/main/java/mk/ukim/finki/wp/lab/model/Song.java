@@ -12,7 +12,7 @@ public class Song {
     String title;
     String genre;
     int releaseYear;
-    private Long id;
+    //private Long id;
     public List<Artist> performers;
     Album album;
 
@@ -22,18 +22,17 @@ public class Song {
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.performers = new ArrayList<>(performers);
-        Random random = new Random();
-        this.id = random.nextLong(10000);
+
+        this.trackId = trackId;
         this.album=album;
     }
-    public Song(String trackId, String title, String genre, int releaseYear, Album album) {
-        this.trackId = trackId;
+    public Song( String title, String genre, int releaseYear, Album album) {
         this.title = title;
         this.genre = genre;
         this.releaseYear = releaseYear;
         this.performers = new ArrayList<>(); // Иницијализираме празна листа за изведувачи
         Random random = new Random();
-        this.id = random.nextLong(10000); // Генерирање случаен ID
+        this.trackId= String.valueOf(random.nextLong(10000)); // Генерирање случаен ID
         this.album=album;
     }
 }

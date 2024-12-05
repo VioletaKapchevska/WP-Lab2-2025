@@ -45,14 +45,12 @@ public class SongRepository {
     public void deleteById(String songId){
         songs.removeIf(s -> s.getTrackId().equals(songId));
     }
-   public Optional<Song> save(String trackId, String title, String genre, Integer releaseYear, Album album){
-       Song song = new Song(trackId,title, genre, releaseYear, album);
+   public Optional<Song> save(Song song){
        songs.removeIf(s -> s.getTrackId().equals(song.getTrackId()));
        songs.add(song);
        return Optional.of(song);
    }
-   public void saveSongAfterEdit(Song song){
-        songs.add(song);
-   }
+
+
 
 }

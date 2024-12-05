@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-Artist-Form</title>
+</head>
+<body>
+
+<h2>Add new artist:</h2>
+<form th:method="POST" th:action="@{/artist/add}">
+       <label>FirstName: </label>
+    <input type="text" name="aName"></br>
+    <label>LastName: </label>
+    <input type="text" name="aLastName"></br>
+
+    <button type="submit">Submit</button>
+    <a type="button" href="/artist">Back</a>
+</form>
+
+</body>
+</html>

@@ -33,12 +33,20 @@
 </header>
 <section>
 
+    <a th:href="@{/artist/add-form}">
+        <button>Add artist</button>
+    </a>
+
     <h2>Select artist:</h2>
     <form method="post" action="/artist">
 
-        <div th:if="${artists.size() > 0}">
+        <div th:if="${artists != null and artists.size() > 0}">
             <div th:each="artist : ${artists}">
                 <input type="radio" name="artistId" th:value="${artist.getId()}"required th:text="|${artist.getFirstName()} ${artist.getLastName()}|">
+                <a th:href="@{/artist/delete/{id}(id=${artist.getId()})}">
+                    <button type="button">Delete</button>
+                </a>
+
             </div>
         </div>
         <br/>
@@ -52,7 +60,7 @@
 
             <td><b>Track Id</b></td>
 
-            <td th:text="${song != null ? song.trackId : 'No song available'}"></td>
+            <td th:text="${chosenSong != null ? chosenSong.id : 'No song available'}"></td>
         </tr>
     </table>
 </aside>
