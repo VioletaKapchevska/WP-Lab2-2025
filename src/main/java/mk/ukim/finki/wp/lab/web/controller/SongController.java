@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpSession;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
+import mk.ukim.finki.wp.lab.repository.jpa.AlbumRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.SongRepository;
 import mk.ukim.finki.wp.lab.service.AlbumService;
 import mk.ukim.finki.wp.lab.service.ArtistService;
 import mk.ukim.finki.wp.lab.service.SongService;
@@ -20,21 +22,33 @@ public class SongController {
     private final SongService songService;
     private final AlbumService albumService;
     private final ArtistService artistService;
+    private final AlbumRepository albumRepository;
+    private final SongRepository songRepository;
 
-    public SongController(SongService songService, AlbumService albumService, ArtistService artistService) {
+    public SongController(SongService songService, AlbumService albumService, ArtistService artistService, AlbumRepository albumRepository, SongRepository songRepository) {
         this.songService = songService;
         this.albumService = albumService;
         this.artistService = artistService;
+        this.albumRepository = albumRepository;
+        this.songRepository = songRepository;
     }
     @GetMapping()
-    public String getSongsPage(@RequestParam(required = false) String error, Model model){
+    public String getSongsPage(@RequestParam(required = false) String error,
+                               @RequestParam(required = false) Long albumId,
+                               Model model){
      //da gi vrakja site pesni so albumite
 
         if (error != null && !error.isEmpty()) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
-        model.addAttribute("songs",songService.listSongs());
+        if(albumId != null){
+            System.out.println("Vleguva tuka");
+            model.addAttribute("songs",songService.searchSongsByAlbum(albumId));
+        }else{
+            model.addAttribute("songs",songService.listSongs());
+        }
+        model.addAttribute("albums",albumService.findAll());
         return "listSongs";
 
     }
@@ -78,18 +92,18 @@ public class SongController {
        return "add-song";
    }
 
-    @GetMapping("/edit/{songId}")
+    @PostMapping("/edit/{songId}")
     public String editSong(@PathVariable Long songId,
-                           @RequestParam(required = false) String title,
-                           @RequestParam(required = false) Long trackId,
-                           @RequestParam(required = false) String genre,
-                           @RequestParam(required = false) Integer releaseYear,
-                           @RequestParam(required = false) Long albumId){
+                           @RequestParam(name="trackId") Long trackId,
+                           @RequestParam(name="songName") String title,
+                           @RequestParam(name="genre") String genre,
+                           @RequestParam(name="rYear") String releaseYear,
+                           @RequestParam(name="albumId") Long albumId){
+
        Album album = albumService.findById(albumId);
        Song song = songService.findByTrackId(trackId);
        List<Artist> artistsList = song.getPerformers();
-       // String trackId, String title, String genre, int releaseYear, List<Artist> performers,Album album
-        songService.editSong(trackId,title,genre,releaseYear,artistsList,album);
+        this.songService.editSong(trackId,title,genre,Integer.parseInt(releaseYear),artistsList,album);
         return "redirect:/songs";
     }
 
@@ -108,7 +122,6 @@ public class SongController {
            return "redirect:/songs";
        }
    }
-
 
 
 }

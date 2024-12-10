@@ -10,5 +10,5 @@ public interface ArtistService {
     List<Artist> listArtists();
     Artist findById(Long id);
     void deteleArtist(Long id);
-    public Optional<Artist> addNewArtist(String firstName,String lastName);
+    Artist addNewArtist(String firstName,String lastName);
 }

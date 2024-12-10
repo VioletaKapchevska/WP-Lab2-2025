@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.lab.repository;
 
 import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Artist;
-import mk.ukim.finki.wp.lab.model.Song;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ArtistRepository {
+public class InMemoryArtistRepository {
 
     static List<Artist> artists = new ArrayList<Artist>(5);
 

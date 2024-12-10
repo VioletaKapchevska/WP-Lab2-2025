@@ -9,14 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class SongRepository {
-    private final ArtistRepository artistRepository;
-    private final AlbumRepository albumRepository;
+public class InMemorySongRepository {
+    private final InMemoryArtistRepository artistRepository;
+    private final InMemoryAlbumRepository albumRepository;
     static public List<Song> songs = new ArrayList<>(5);
 
 

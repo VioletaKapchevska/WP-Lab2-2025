@@ -23,8 +23,10 @@ public class ArtistController {
     }
 
     @GetMapping()
-    public String getArtistPage(Model model){
+    public String getArtistPage(Model model,HttpSession session) {
+        Song chosenSong = (Song)session.getAttribute("song");
         model.addAttribute("artists",artistService.listArtists());
+        model.addAttribute("chosenSong",chosenSong);
         return "artistsList";
     }
     //delete an artist

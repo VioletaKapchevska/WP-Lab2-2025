@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class AlbumRepository {
+public class InMemoryAlbumRepository {
     static List<Album> albums = new ArrayList<Album>(5);
 
     @PostConstruct

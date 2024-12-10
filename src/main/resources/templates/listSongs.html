@@ -21,7 +21,19 @@
         <button>Add song</button>
     </a>
 
+    <form th:method="get" th:action="@{/songs}">
+        <h2>Search songs by Album Id:</h2>
+        <select name="albumId">
+            <option th:each="album:${albums}" th:value="${album.id}" th:text="${album.name}">
+
+            </option>
+        </select>
+        <button>Search</button>
+    </form>
+
+
     <h2>Choose a song:</h2>
+
     <form method="post" th:action="@{/songs}">
         <!-- Display radio buttons for each song,
                     the value should be the trackId

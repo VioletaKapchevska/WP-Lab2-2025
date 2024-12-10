@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -7,14 +8,25 @@ import java.util.List;
 import java.util.Random;
 
 @Data
+@Entity
 public class Song {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long trackId;
+
     String title;
+
     String genre;
+
     int releaseYear;
-    //private Long id;
+
+    @ManyToMany
     public List<Artist> performers;
+
+    @ManyToOne
     Album album;
+
+    public Song(){}
 
     public Song(Long trackId, String title, String genre, int releaseYear, List<Artist> performers,Album album) {
         this.trackId = trackId;

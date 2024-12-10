@@ -5,7 +5,8 @@
     <title>Add new song</title>
 </head>
 <body>
-<form th:method="POST" th:action="@{/songs/add}">
+
+<form th:method="POST" th:action="${song != null} ? @{'/songs/edit/{id}' (id=${song.getTrackId()})} : '/songs/add'">
     <input id="trackId" type="hidden" name="trackId"
            th:value="(${song} != null ? ${song.getTrackId()} : '')">
 

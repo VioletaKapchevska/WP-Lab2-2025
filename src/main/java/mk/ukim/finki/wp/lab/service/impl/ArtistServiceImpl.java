@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Artist;
-import mk.ukim.finki.wp.lab.repository.ArtistRepository;
+import mk.ukim.finki.wp.lab.repository.InMemoryArtistRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.ArtistRepository;
 import mk.ukim.finki.wp.lab.service.ArtistService;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +29,11 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public void deteleArtist(Long id) {
-        artistRepository.deleteArtistById(id);
+        artistRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Artist> addNewArtist(String firstName, String lastName) {
-        return artistRepository.addArtist(firstName, lastName);
+    public Artist addNewArtist(String firstName, String lastName) {
+        return artistRepository.save(new Artist(firstName, lastName));
     }
 }
