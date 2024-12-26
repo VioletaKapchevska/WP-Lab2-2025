@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Add new Performer to Song</title>
@@ -34,7 +34,9 @@
 <section>
 
     <a th:href="@{/artist/add-form}">
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
         <button>Add artist</button>
+        </th:block>
     </a>
 
     <h2>Select artist:</h2>
@@ -43,10 +45,11 @@
         <div th:if="${artists != null and artists.size() > 0}">
             <div th:each="artist : ${artists}">
                 <input type="radio" name="artistId" th:value="${artist.getId()}"required th:text="|${artist.getFirstName()} ${artist.getLastName()}|">
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                 <a th:href="@{/artist/delete/{id}(id=${artist.getId()})}">
                     <button type="button">Delete</button>
                 </a>
-
+                </th:block>
             </div>
         </div>
         <br/>

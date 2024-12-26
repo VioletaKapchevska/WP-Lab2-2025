@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Songs Homepage - Welcome to My Music Store</title>
@@ -17,9 +17,11 @@
 <main>
 
     <h2>Add new song:</h2>
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
     <a th:href="@{/songs/add-form}">
         <button>Add song</button>
     </a>
+    </th:block>
 
     <form th:method="get" th:action="@{/songs}">
         <h2>Search songs by Album Id:</h2>
@@ -42,13 +44,17 @@
           <div th:each="song : ${songs}">
               <input type="radio" name="trackId" required th:value="${song.getTrackId()}"  th:text="|Title: ${song.getTitle()}, Genre: ${song.getGenre()}, Release Year: ${song.getReleaseYear()}, Album Name: ${song.album.name}|">
 
+              <th:block sec:authorize="hasRole('ROLE_ADMIN')">
               <a th:href="@{/songs/delete/{id}(id=${song.getTrackId()})}">
                   <button type="button">Delete song</button>
               </a>
+              </th:block>
 
+              <th:block sec:authorize="hasRole('ROLE_ADMIN')">
               <a th:href="@{/songs/edit-form/{id}(id=${song.trackId})}">
                   <button type="button">Edit song</button>
               </a>
+              </th:block>
 
           </div>
         </div>
