@@ -33,18 +33,13 @@ public class WebSecurityConf {
                         .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers( "/songs", "/assets/**", "/artist")
-                        .permitAll()
-                        .requestMatchers("/songs/**", "/artist/**").hasRole("ADMIN")
+                        .requestMatchers("/songs/edit-form/**", "/artist/**","/songs/delete/").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .formLogin(
                         (form) -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                        .failureUrl("/login?error=BadCredentials")
                                 .defaultSuccessUrl("/songs", true)
                 )
 
